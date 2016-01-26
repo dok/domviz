@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/g/d3js@3.5.12(d3.js),jquery@3.0.0-alpha1"></script>
+        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <section class="container">
+            <header>
+                <h1>domvy</h1>
+                <p>Compare two different dom nodes visually</p>
+                <button id="analyze">analyze</button>
+            </header>
+        </section>
+
+        <div class="container">
+            <div class="base">
+                <textarea></textarea>
+                <div id="baseVisual" class="base-output"></div>
+            </div>
+
+            <div class="target">
+                <textarea></textarea>
+                <div id="targetVisual" class="new-output"></div>
+            </div>
+        </div>
+
+        <script src="visuals.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
