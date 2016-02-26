@@ -2,6 +2,9 @@ var global = window;
 
 function App () {
     var self = this;
+    this.tooltips = [];
+
+    window.app = this;
 
     $(document).ready(function() {
         $('[data-base]').val('<div class=" thing id-t3_47k0pn even  link " id="thing_t3_47k0pn" onclick="click_thing(this)" data-fullname="t3_47k0pn" data-type="link" data-author="110614" data-author-fullname="t2_ozztr" data-subreddit="videos" data-subreddit-fullname="t5_2qh1e" data-timestamp="1456421338000" data-domain="youtu.be" data-rank="2"><p class="parent"></p><span class="rank">2</span><div class="midcol unvoted"><div class="arrow up login-required access-required" data-event-action="upvote" role="button" aria-label="upvote" tabindex="0"></div><div class="score dislikes">4504</div><div class="score unvoted">4505</div><div class="score likes">4506</div><div class="arrow down login-required access-required" data-event-action="downvote" role="button" aria-label="downvote" tabindex="0"></div></div><a class="thumbnail may-blank loggedin " href="https://youtu.be/oI_LQ5lR4gU"><img src="//b.thumbs.redditmedia.com/pJ6eU9teG10n8Um3cvkMtyPN3TAvPmKYHHhE_RU5gkI.jpg" width="70" height="52" alt=""></a><div class="entry unvoted lcTagged"><p class="title"><a class="title may-blank loggedin  srTagged imgScanned" href="https://youtu.be/oI_LQ5lR4gU" tabindex="1">Gordon Ramsay tried Girl Scout Cookies for the first time.</a> <span class="domain">(<a href="/domain/youtu.be/">youtu.be</a>)</span></p><div class="expando-button collapsed video"></div><p class="tagline">submitted <time title="Thu Feb 25 17:28:58 2016 UTC" datetime="2016-02-25T17:28:58+00:00" class="live-timestamp">11 hours ago</time> by <a href="https://www.reddit.com/user/110614" class="author may-blank id-t2_ozztr userTagged">110614</a><span class="RESUserTag"><a class="userTagLink RESUserTagImage" username="110614" title="set a tag" href="javascript:void 0"></a></span> <a href="#" class="voteWeight" style="display: none;">[vw]</a><span class="userattrs"></span></p><ul class="flat-list buttons pocket-inserted"><li class="first"><a href="https://www.reddit.com/r/videos/comments/47k0pn/gordon_ramsay_tried_girl_scout_cookies_for_the/" class="comments may-blank">1720 comments</a></li><li class="share"><a class="post-sharing-button" href="javascript: void 0;">share</a></li><li class="link-save-button save-button"><a href="#">save</a></li><li><form action="/post/hide" method="post" class="state-button hide-button"><input type="hidden" name="executed" value="hidden"><span><a action="hide" href="#">hide</a></span></form></li><li class="report-button"><a href="javascript:void(0)" class="reportbtn access-required" data-event-action="report">report</a></li><li><span class="redditSingleClick" thislink="https://youtu.be/oI_LQ5lR4gU" thiscomments="https://www.reddit.com/r/videos/comments/47k0pn/gordon_ramsay_tried_girl_scout_cookies_for_the/">[l+c]</span></li><li><a class="pocket-reddit-button" href="#">pocket</a></li></ul><div class="reportform report-t3_47k0pn"></div><div class="expando expando-uninitialized" style="display: none" data-cachedhtml=" <iframe src=&quot;//www.redditmedia.com/mediaembed/47k0pn&quot; id=&quot;media-embed-47k0pn-hi9&quot; class=&quot;media-embed&quot; width=&quot;610&quot; height=&quot;348&quot; border=&quot;0&quot; frameBorder=&quot;0&quot; scrolling=&quot;no&quot; allowfullscreen></iframe> "><span class="error">loading...</span></div></div><div class="child"></div><div class="clearleft"></div></div>');
@@ -9,6 +12,10 @@ function App () {
 
         var source   = $("#tooltip-template").html();
         window.tooltipTemplate = Handlebars.compile(source);
+        Handlebars.registerPartial('node', source);
+
+        var nodeSource   = $("#node-template").html();
+        window.nodeTemplate = Handlebars.compile(nodeSource);
 
         window.tooltip = d3.select("body").append("div")   
             .attr("class", "tooltip")               
@@ -19,6 +26,9 @@ function App () {
         $("#analyze").click(self.onClick.bind(self));
     });
 
+    $('.tooltip [data-remove]').on('click', function() {
+        $(this).remove();
+    });
 
 }
 
