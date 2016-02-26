@@ -28,16 +28,17 @@ var color = d3.scale.ordinal()
     .range(["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C"]);
 
 function create_svg(id) {
+    var node = document.querySelector('#' + id);
     // create svg image
     var svg = d3.select("#" + id)
         .append("svg")
-        .attr("width", dimensions.width)
-        .attr("height", dimensions.height)
+        .attr("width", node.offsetWidth - 30)
+        .attr("height", node.offsetHeight * 2);
 
     // draw a rectangle with a light grey background
     svg.append("rect")
-        .attr("width", dimensions.width)
-        .attr("height", dimensions.height)
+        .attr("width", node.offsetWidth - 30)
+        .attr("height", node.offsetHeight)
         .style("fill", "#eeeeee");
 
     // return reference to svg image
@@ -98,9 +99,12 @@ function create_nodelink(svg, tree, layout, path_generator) {
             // moves circle to front
             this.parentNode.appendChild(this);
         })
-        .on("mouseout.tooltip", function(d) {
+        .on("mouseout", function(d) {
             // remove tooltip
-            svg.select("#tooltip").remove();
+            window.tooltip
+                .transition()
+                .duration(500)
+                .style('opacity', 0);
 
             // reset circle style
             d3.select(this).style("stroke", "#888888");
@@ -143,48 +147,13 @@ function create_normal(id, tree, layout) {
  *  properly set.
  */
 function show_tooltip(svg, node, xmin, xmax, d) {
-    // retrieve node attributes
-    var x = parseFloat(node.attr("cx"));
-    var y = parseFloat(node.attr("cy"));
-    var r = parseFloat(node.attr("r"));
-    // var text = node.attr("id");
-    var text = 'Classes: ' + d.className + '\n\n';
-    text += 'Style: ' + (d.style || 'none');
+    var tooltip = tooltipTemplate(d);
 
-    // create tooltip
-    var tooltip = svg.append("text")
-        .text(text)
-        .attr("x", x)
-        .attr("y", y)
-        .attr("dy", -r * 2) // shift upward above circle
-        .attr("id", "tooltip");
-
-    // set tooltip style
-    tooltip.style("font-size", "10pt")
-        .style("font-weight", "900")
-        .style("fill", "black")
-        .style("stroke", "white")
-        .style("stroke-width", "0.25px");
-
-    // it is possible the tooltip will fall off the edge of the svg image
-    // we can detect when this happens, and set the text anchor appropriately
-
-    // get bounding box for the text
-    var bbox = tooltip.node().getBBox();
-    var offset = bbox.width / 2;
-
-    // if text will fall of left side, anchor at start
-    if ((x - offset) < xmin) {
-        tooltip.attr("text-anchor", "start");
-        tooltip.attr("dx", -r); // nudge text over from center
-    }
-    // if text will fall of right side, anchor at end
-    else if ((x + offset) > xmax) {
-        tooltip.attr("text-anchor", "end");
-        tooltip.attr("dx", r);
-    }
-    // otherwise, anchor text in middle
-    else {
-        tooltip.attr("text-anchor", "middle");
-    }
+    window.tooltip
+        .transition()
+        .style('opacity', .9);
+    window.tooltip
+        .html(tooltip)
+        .style("left", (d3.event.pageX + 20) + "px")     
+        .style("top", (d3.event.pageY - 28) + "px");
 }
