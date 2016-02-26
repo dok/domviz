@@ -58,51 +58,61 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="bs-component">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Base Visualization</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="bs-component">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Base Visualization</h3>
+                            </div>
+                            <div data-base-visual id="baseVisual" class="base-output">
+                            </div>
                         </div>
-                        <div data-base-visual id="baseVisual" class="panel-body base-output">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="bs-component">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Target Visualization</h3>
+                            </div>
+                            <div data-target-visual id="targetVisual" class="target-output">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="bs-component">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Target Visualization</h3>
-                        </div>
-                        <div data-target-visual id="targetVisual" class="panel-body target-output">
-                        </div>
-                    </div>
-                </div>
+            <div class="row" node-containers>
+                
             </div>
 
         </div>
 
-
+        <script id="node-template" type="text/x-handlebars-template">
+            <div class="col-md-3">
+                <div class="node">
+                    {{> node}}
+                </div>
+            </div>
+        </script>
 
         <script id="tooltip-template" type="text/x-handlebars-template">
-            <div class="tooltip">
-                <div class="bs-component">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">{{tagName}}</div>
-                    <div class="panel-body">
-                        {{#if className}}
-                            <h5>Classes</h5>
-                            <p>{{className}}</p>
-                        {{/if}}
-                        {{#if style}}
-                            <h5>Inline Styles</h5>
-                            <p>{{style}}</p>
-                        {{/if}}
-                    </div>
-                  </div>
+            <div class="bs-component">
+              <div class="panel panel-default">
+                <div class="panel-heading">{{tagName}}</div>
+                <div class="panel-body">
+                    {{#if className}}
+                        <h5>Classes</h5>
+                        <p>{{className}}</p>
+                    {{/if}}
+                    {{#if style}}
+                        <h5>Inline Styles</h5>
+                        <p>{{style}}</p>
+                    {{/if}}
                 </div>
+              </div>
             </div>
         </script>
 

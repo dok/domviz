@@ -3,12 +3,10 @@ body {
 
 .tooltip {
     color: black;
-    width: 500px;
 }
 
 .node {
-    stroke: #888888;
-    stroke-weight: 1px;
+    width: 100%;
 }
 
 .link {

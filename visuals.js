@@ -32,12 +32,12 @@ function create_svg(id) {
     // create svg image
     var svg = d3.select("#" + id)
         .append("svg")
-        .attr("width", node.offsetWidth - 30)
-        .attr("height", node.offsetHeight * 2);
+        .attr("width", node.offsetWidth)
+        .attr("height", node.offsetHeight);
 
     // draw a rectangle with a light grey background
     svg.append("rect")
-        .attr("width", node.offsetWidth - 30)
+        .attr("width", node.offsetWidth)
         .attr("height", node.offsetHeight)
         .style("fill", "#eeeeee");
 
@@ -69,7 +69,7 @@ function create_nodelink(svg, tree, layout, path_generator) {
         .data(nodes)
         .enter()
         .append("circle")
-        .attr("r", 4)
+        .attr("r", 7)
         .attr("cx", function(d) { return d.x; }) // set by layout
         .attr("cy", function(d) { return d.y; }) // set by layout
         .attr("id", function(d) { return d.name; })
@@ -78,7 +78,7 @@ function create_nodelink(svg, tree, layout, path_generator) {
             return nodeColor[d.tagName] || nodeColor['default'];
         })
         // add mouseover interactivity
-        .on("mouseover.tooltip", function(d) {
+        .on("mouseover", function(d) {
             // calculate valid range
             var xmin = 0;
             var xmax = layout.size()[0];
@@ -111,6 +111,10 @@ function create_nodelink(svg, tree, layout, path_generator) {
             d3.select(this).style("fill", function(d) {
                 return nodeColor[d.tagName] || nodeColor['default'];
             });
+        })
+        .on('click', function(d) {
+            var tooltip = nodeTemplate(d);
+            $('[node-containers]').append(tooltip);
         });
 }
 
@@ -122,7 +126,7 @@ function create_normal(id, tree, layout) {
 
     // translate slightly to add margin around plot
     var pad = dimensions.margin / 2;
-    svg = svg.append("g")
+    var g = svg.append("g")
         .attr("transform", "translate(" + pad + ", " + pad + ")");
 
     // setup layout to return pixel values within plot area
@@ -134,7 +138,14 @@ function create_normal(id, tree, layout) {
         // again, d.x and d.y have already been transformed by layout
         .projection(function(d) { return [d.x, d.y]; });
 
-    create_nodelink(svg, tree, layout, path_generator);
+    create_nodelink(g, tree, layout, path_generator);
+
+    var height = document.querySelector('g').getBoundingClientRect().height;
+
+    svg
+        .style('height', height + dimensions.margin)
+        .select('rect')
+        .style('height', height + dimensions.margin);
 }
 
 /*
