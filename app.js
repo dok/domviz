@@ -70,6 +70,11 @@ function Node(dom, parent) {
     this.tagName = dom.tagName;
     this.parent = parent;
     this.className = dom.getAttribute('class');
+    var attrs = dom.attributes;
+    this.attributes = Array.from(attrs).filter(function(item) {
+        return item.name !== 'class' && item.name !== 'style';
+    });
+
     this.style = dom.getAttribute('style');
     this.children = [];
 }

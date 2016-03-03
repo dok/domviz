@@ -118,6 +118,14 @@
                         <h5>Inline Styles</h5>
                         <p>{{style}}</p>
                     {{/if}}
+                    {{#if attributes}}
+                        <h5>Other attributes</h5>
+                        <ul>
+                            {{#each attributes}}
+                                <li>{{name}} = {{value}}</li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
                 </div>
               </div>
             </div>
