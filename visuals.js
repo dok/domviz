@@ -29,6 +29,9 @@ var color = d3.scale.ordinal()
 
 function create_svg(id) {
     var node = document.querySelector('#' + id);
+
+    d3.select('#' + id + ' svg').remove();
+
     // create svg image
     var svg = d3.select("#" + id)
         .append("svg")
